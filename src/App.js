@@ -12,14 +12,24 @@ export const socket = io();
 function App() {
   // These are all of my variables for the game. Yeah, it's a lot.
   const [board, setBoard] = useState(['', '', '', '', '', '', '', '', '']);
+  // List of unordered users for determining who's X/O and who's not
   const [users, setUser] = useState([]);
+  // List of ordered users by score
   const [scores, setScores] = useState([]);
+  // Allows program to conditionally render if the logged in button was processed.
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // Keeps track of the username of each tab for later functions.
   const [checkUser, setCheckUser] = useState(null);
+  // Is the current user X or O
   const [currentLetter, setCurrentLetter] = useState('');
+  // Whose turn is it
   const [isXNext, setIsXNext] = useState(true);
+  // Shows who won the game. Cleared on reset and logout.
   const [currentWinner, setCurrentWinner] = useState(null);
+  // Was the leaderboard button pressed.
   const [isLead, setIsLead] = useState(null);
+  /* These are all the variables I put in the return statement. They're null
+  if log in button was not clicked, otherwise they render other react components */
   let currentWindow;
   let logoutButton;
   let theWinnerIsStatement;
@@ -31,6 +41,7 @@ function App() {
       socket.emit('logout',checkUser);
     }
   }); */
+  
   // Just updates the scores of users.
   useEffect(() => {
     socket.on('winner', (data) => {
@@ -111,9 +122,7 @@ function App() {
     logoutButton = <Logout setIsLoggedIn={setIsLoggedIn} currentLetter={currentLetter} setBoard={setBoard} setCheckUser={setCheckUser}
     setCurrentLetter={setCurrentLetter} setIsXNext={setIsXNext} setUser={setUser} setCurrentWinner={setCurrentWinner} 
     checkUser={checkUser} setScores={setScores} setIsLead={setIsLead}/>;
-
-    /* Passing setUserLetter to tell the program if the user is X or O,
-    but I'm going to remove this for milestone. */
+    // Functional leaderboard button.
     leaderBoardButton = (
       <LeaderBoard
         users={users}
@@ -148,8 +157,7 @@ function App() {
     theWinnerIsStatement = <h1>The winner is: </h1>;
     resetButton = <button type="button" onClick={reset}>Reset</button>;
   }
-
-  // Now Heroku doesn't want to deploy.
+  // Renders everything.
   return (
     <div>
       <div className="board">{currentWindow}</div>

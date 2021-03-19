@@ -3,6 +3,7 @@ import './Display.css';
 import React from 'react';
 import PropTypes from 'prop-types';
 
+// This function is actually displaying the leaderboard.
 export function Display(props) {
   const {
     name, number, currentUser, currentLetter,

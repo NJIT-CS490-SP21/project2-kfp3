@@ -12,7 +12,10 @@ export function Logout(props) {
       setScores([...data.ordered_users]);
     });
   }, []);
-  // Wasn't required but I figured what the heck. Still isn't perfect.
+  /* If the user is a spectator, their name is just removed
+  from the list of active users. Otherwise, the board and everything
+  gets reset. I don't call the reset function because it emits to
+  reset socket, which I don't want.*/
   function onLogout() {
     setIsLoggedIn(false);
     socket.emit('logout', checkUser);

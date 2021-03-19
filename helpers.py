@@ -30,7 +30,7 @@ def ordered_append(object_arr):
             'username': score.username,
             'score': score.score})
     return ordered_users
-def add_to_db(user,DB,models):
+def add_to_db(user, DB, models):
     """This function is purely just for adding the user to the db"""
     new_user = models.Person(username=user, score=100)
     DB.session.add(new_user)

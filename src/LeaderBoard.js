@@ -2,6 +2,9 @@ import './App.css';
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { socket } from './App';
+
+/* Renders the leaderboard button and also tells the program if the user is X or O
+Also keeps a lookout for anybody logging out.*/
 export function LeaderBoard(props) {
   const {
     users, currentUser, setCurrentLetter, setIsLead, setUser, setScores
@@ -13,8 +16,6 @@ export function LeaderBoard(props) {
     });
   });
   const num = users.indexOf(currentUser);
-  console.log(users);
-  console.log(currentUser,num)
   // Tells the user if they're X, O or a spectator.
   function setUserLetter(number, name) {
     if (name === currentUser && number === 0) {

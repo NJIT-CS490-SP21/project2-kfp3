@@ -25,7 +25,6 @@ APP.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 DB = SQLAlchemy(APP)
 # IMPORTANT: This must be AFTER creating DB variable to prevent
 # circular import issues
-
 import models
 
 DB.create_all()
@@ -65,10 +64,9 @@ def on_login(data):
     a score of 100. Also sets Player X, Player O and Spectators.
     Also orders the users by score and returns that to Display
     in LeaderBoard."""
-    global LIST_OF_ACTIVE_USERS
     username = data['user']
     exists = DB.session.query(models.Person).filter_by(username=username).first()
-    if(exists is None):
+    if exists is None:
         add_to_db(username, DB, models)
     LIST_OF_ACTIVE_USERS.append(username)
     #Order the scores in descening order.
@@ -85,7 +83,7 @@ def on_login(data):
 @SOCKETIO.on('logout')
 def on_logout(data):
     """Resets board"""
-    global PREVIOUS_ARR, LIST_OF_ACTIVE_USERS
+    global PREVIOUS_ARR
     PREVIOUS_ARR = ["", "", "", "", "", "", "", "", ""]
     LIST_OF_ACTIVE_USERS.remove(data)
     ordered_scores = DB.session.query(models.Person).order_by(
