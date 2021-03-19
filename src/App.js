@@ -26,39 +26,11 @@ function App() {
   let resetButton;
   let leaderBoardButton;
   let leader;
-
-  /* Use effects for the game. If the user reloads there page.
-  It doesn't update to the original player's square,
-  but instead updates the original player's square to be blank as well. */
-  useEffect(() => {
-    socket.on('tictactoe', (data) => {
-      setBoard([...data.message]);
-      setIsXNext(!data.nxt);
-    });
-  }, []);
-
   /* useEffect(() => {
     return function cleanup(){
       socket.emit('logout',checkUser);
     }
   }); */
-
-  /* Gives a list of users in the order that they logged in,
-  as well as a list of users ordered by their scores. */
-  useEffect(() => {
-    socket.on('login', (data) => {
-      setUser([...data.users]);
-      setScores([...data.ordered_users]);
-    });
-  }, []);
-
-  useEffect(() => {
-    socket.on('logout', (data) => {
-      setUser([...data.users]);
-      setScores([...data.ordered_users]);
-    });
-  });
-
   // Just updates the scores of users.
   useEffect(() => {
     socket.on('winner', (data) => {
@@ -148,6 +120,8 @@ function App() {
         currentUser={checkUser}
         setCurrentLetter={setCurrentLetter}
         setIsLead={setIsLead}
+        setUser={setUser}
+        setScores={setScores}
       />
     );
     if (isLead) {

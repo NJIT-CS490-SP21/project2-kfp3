@@ -4,7 +4,15 @@ import PropTypes from 'prop-types';
 import { socket } from './App.js';
 export function MakeBoard(props) {
   const { ifX, id, currentLetter, isXNext, setBoard, setIsXNext, board} = props;
-
+   /* Use effects for the game. If the user reloads there page.
+  It doesn't update to the original player's square,
+  but instead updates the original player's square to be blank as well. */
+  useEffect(() => {
+    socket.on('tictactoe', (data) => {
+      setBoard([...data.message]);
+      setIsXNext(!data.nxt);
+    });
+  }, []);
   /* Changes the value of each square. currentLetter is
   telling the program if the user is X or O.
   It has nothing to do with the square's value.
@@ -24,8 +32,8 @@ export function MakeBoard(props) {
           && temp[parseInt(clickedId, 10)] !== 'O'
         ) {
           temp[parseInt(clickedId, 10)] = currentLetter;
+          setIsXNext(!isXNext);
         }
-        setIsXNext(!isXNext);
         socket.emit('tictactoe', { message: temp, nxt: isXNext });
         return temp;
       });

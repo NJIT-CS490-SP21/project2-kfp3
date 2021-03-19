@@ -1,9 +1,17 @@
 import './App.css';
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { socket } from './App';
 export function Logout(props) {
   const { setIsLoggedIn, currentLetter, setBoard, setCheckUser, setCurrentLetter, setIsXNext, setUser, setCurrentWinner, checkUser, setScores, setIsLead } = props;
+  /* Gives a list of users in the order that they logged in,
+  as well as a list of users ordered by their scores. */
+  useEffect(() => {
+    socket.on('login', (data) => {
+      setUser([...data.users]);
+      setScores([...data.ordered_users]);
+    });
+  }, []);
   // Wasn't required but I figured what the heck. Still isn't perfect.
   function onLogout() {
     setIsLoggedIn(false);

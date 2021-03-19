@@ -1,11 +1,17 @@
 import './App.css';
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
-
+import { socket } from './App';
 export function LeaderBoard(props) {
   const {
-    users, currentUser, setCurrentLetter, setIsLead
+    users, currentUser, setCurrentLetter, setIsLead, setUser, setScores
   } = props;
+  useEffect(() => {
+    socket.on('logout', (data) => {
+      setUser([...data.users]);
+      setScores([...data.ordered_users]);
+    });
+  });
   const num = users.indexOf(currentUser);
   console.log(users);
   console.log(currentUser,num)
@@ -31,6 +37,8 @@ LeaderBoard.propTypes = {
   users: PropTypes.arrayOf(PropTypes.string),
   currentUser: PropTypes.string,
   setCurrentLetter: PropTypes.func,
+  setUser: PropTypes.func,
+  setScores: PropTypes.func
 };
 
 LeaderBoard.defaultProps = {
@@ -38,6 +46,8 @@ LeaderBoard.defaultProps = {
   users: [],
   currentUser: '',
   setCurrentLetter: null,
+  setUser: null,
+  setScores: null
 };
 
 export default LeaderBoard;

@@ -37,10 +37,7 @@ export function Display(props) {
   }
   return (
     <tr>
-      <td>
-        {' '}
-        {line}
-      </td>
+      {line}
       <td>{number}</td>
     </tr>
   );
