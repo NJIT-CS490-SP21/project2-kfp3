@@ -1,30 +1,63 @@
-import "./App.css";
-import "./Display.css";
-import React from "react";
+import './App.css';
+import './Display.css';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 export function Display(props) {
-  var line;
-  if (props.name === props.currentUser) {
+  const {
+    name, number, currentUser, currentLetter,
+  } = props;
+  let line;
+  if (name === currentUser) {
     line = (
       <td>
-        {" "}
+        {' '}
         <b>
-          Player {props.currentLetter} ({props.name})
+          Player
+          {' '}
+          {currentLetter}
+          {' '}
+          (
+          {name}
+          )
         </b>
       </td>
     );
   } else {
     line = (
       <td>
-        {" "}
-        Player {props.currentLetter} ({props.name})
+        {' '}
+        Player
+        {' '}
+        (
+        {name}
+        )
       </td>
     );
   }
   return (
     <tr>
-      <td> {line}</td>
-      <td>{props.number}</td>
+      <td>
+        {' '}
+        {line}
+      </td>
+      <td>{number}</td>
     </tr>
   );
 }
+
+Display.propTypes = {
+  name: PropTypes.string,
+  number: PropTypes.number,
+  currentUser: PropTypes.string,
+  currentLetter: PropTypes.string,
+};
+
+Display.defaultProps = {
+  name: '',
+  number: null,
+  currentUser: null,
+  currentLetter: null,
+};
+
+export default Display;
